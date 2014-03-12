@@ -12,7 +12,7 @@
     angular.module('googlechart', [])
 
         .constant('googleChartApiConfig', {
-            version: '1',
+            version: '1.1',
             optionalSettings: {
                 packages: ['corechart']
             }
