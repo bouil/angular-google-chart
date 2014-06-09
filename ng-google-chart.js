@@ -92,10 +92,11 @@
                         drawAsync();
                     }, true); // true is for deep object equality checking
 
-                    $scope.$watch('chartMethod', function (nv) {
-                        if ($scope.chartWrapper && nv && nv.name) {
+
+                    $scope.$watch('chartMethod', function (newValue) {
+                        if ($scope.chartWrapper && $scope.chartWrapper.getChart() && newValue && newValue.name) {
                             var chart = $scope.chartWrapper.getChart();
-                            chart[nv.name].apply(chart, nv.args);
+                            chart[newValue.name].apply(chart, newValue.args);
                         }
                     });
 
