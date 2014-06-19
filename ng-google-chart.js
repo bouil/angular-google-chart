@@ -60,7 +60,7 @@
 
             script.setAttribute('type', 'text/javascript');
             script.src = googleJsapiUrl;
-            
+
             if (script.addEventListener) { // Standard browsers (including IE9+)
                 script.addEventListener('load', onLoad, false);
             } else { // IE8 and below
@@ -71,7 +71,7 @@
                     }
                 };
             }
-            
+
             head.appendChild(script);
 
             return apiReady.promise;
@@ -82,7 +82,8 @@
                 scope: {
                     chart: '=chart',
                     onReady: '&',
-                    select: '&'
+                    select: '&',
+                    chartMethod: "="
                 },
                 link: function ($scope, $elm) {
                     /* Watches, to refresh the chart when its data, formatters, options, or type change.
@@ -99,6 +100,14 @@
                     }, function () {
                         drawAsync();
                     }, true); // true is for deep object equality checking
+
+
+                    $scope.$watch('chartMethod', function (newValue) {
+                        if ($scope.chartWrapper && $scope.chartWrapper.getChart() && newValue && newValue.name) {
+                            var chart = $scope.chartWrapper.getChart();
+                            chart[newValue.name].apply(chart, newValue.args);
+                        }
+                    });
 
                     // Redraw the chart if the window is resized
                     $rootScope.$on('resizeMsg', function () {
