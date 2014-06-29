@@ -60,7 +60,7 @@
 
             script.setAttribute('type', 'text/javascript');
             script.src = googleJsapiUrl;
-            
+
             if (script.addEventListener) { // Standard browsers (including IE9+)
                 script.addEventListener('load', onLoad, false);
             } else { // IE8 and below
@@ -71,7 +71,7 @@
                     }
                 };
             }
-            
+
             head.appendChild(script);
 
             return apiReady.promise;
@@ -174,7 +174,7 @@
                                         dataTable: $scope.chart.data,
                                         view: $scope.chart.view,
                                         options: $scope.chart.options,
-                                        containerId: $elm[0]
+                                        containerId: $elm[0].id
                                     };
 
                                     $scope.chartWrapper = new google.visualization.ChartWrapper(chartWrapperArgs);
