@@ -81,6 +81,7 @@
                 restrict: 'A',
                 scope: {
                     chart: '=chart',
+                    ratio: '=',
                     onReady: '&',
                     onSelect: '&',
                     select: '&'
@@ -233,6 +234,9 @@
 
 
                                 $timeout(function () {
+                                    if($scope.ratio && (typeof $scope.ratio === 'number')){
+                                        $scope.chartWrapper.setOption("height", $scope.chartWrapper.getContainerId().offsetWidth/$scope.ratio);
+                                    }
                                     $scope.chartWrapper.draw();
                                     draw.triggered = false;
                                 });
