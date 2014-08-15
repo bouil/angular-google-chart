@@ -173,7 +173,7 @@
                         if (!draw.triggered && ($scope.chart != undefined)) {
                             draw.triggered = true;
                             $timeout(function () {
-								if ($scope.chart.dataViewColumns) {
+                                if ($scope.chart.dataViewColumns) {
                                     var dataView = new google.visualization.DataView(google.visualization.arrayToDataTable($scope.chart.data));
                                     dataView.setColumns($scope.chart.dataViewColumns);
                                     $scope.chart.data = dataView;
