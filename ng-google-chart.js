@@ -210,7 +210,11 @@
                                     });
                                 }
                                 else {
-                                    $scope.chartWrapper.setChartType($scope.chart.type);
+									if (($scope.chart.type !== 'BarChart' && $scope.chartWrapper.getChartType() === 'BarChart') ||
+										($scope.chart.type === 'BarChart' && $scope.chartWrapper.getChartType() !== 'BarChart')) {
+										$scope.chart.options.hAxis = [$scope.chart.options.vAxis, $scope.chart.options.vAxis = $scope.chart.options.hAxis][0];
+									}
+									$scope.chartWrapper.setChartType($scope.chart.type);
                                     $scope.chartWrapper.setDataTable($scope.chart.data);
                                     $scope.chartWrapper.setView($scope.chart.view);
                                     $scope.chartWrapper.setOptions($scope.chart.options);
