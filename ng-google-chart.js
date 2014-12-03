@@ -14,7 +14,7 @@
         .value('googleChartApiConfig', {
             version: '1',
             optionalSettings: {
-                packages: ['corechart']
+                packages: ['corechart'],
             }
         })
 
@@ -84,13 +84,15 @@
                     chart: '=chart',
                     onReady: '&',
                     onSelect: '&',
-                    select: '&'
+                    select: '&',
+                    onApiReady: '&'
                 },
                 link: function ($scope, $elm, $attrs) {
                     /* Watches, to refresh the chart when its data, formatters, options, view,
-                        or type change. All other values intentionally disregarded to avoid double
-                        calls to the draw function. Please avoid making changes to these objects
-                        directly from this directive.*/
+                     or type change. All other values intentionally disregarded to avoid double
+                     calls to the draw function. Please avoid making changes to these objects
+                     directly from this directive.*/
+
                     $scope.$watch(function () {
                         if ($scope.chart) {
                             return {
@@ -151,7 +153,7 @@
 
                                     for (var i = 0; i < $scope.chart.formatters[formatType].length; i++) {
                                         $scope.formatters[formatType].push(new formatClass(
-                                            $scope.chart.formatters[formatType][i])
+                                                $scope.chart.formatters[formatType][i])
                                         );
                                     }
                                 }
@@ -197,16 +199,14 @@
                                         console.log(err);
                                     });
                                     google.visualization.events.addListener($scope.chartWrapper, 'select', function () {
-                                        var selectEventRetParams = {selectedItems:$scope.chartWrapper.getChart().getSelection()};
-                                        // This is for backwards compatibility for people using 'selectedItem' that only wanted the first selection.
-                                        selectEventRetParams['selectedItem'] = selectEventRetParams['selectedItems'][0];
+                                        var selectedItem = $scope.chartWrapper.getChart().getSelection()[0];
                                         $scope.$apply(function () {
                                             if ($attrs.select) {
                                                 console.log('Angular-Google-Chart: The \'select\' attribute is deprecated and will be removed in a future release.  Please use \'onSelect\'.');
-                                                $scope.select({selectEventRetParams: selectEventRetParams});
+                                                $scope.select({ selectedItem: selectedItem });
                                             }
                                             else {
-                                                $scope.onSelect({selectEventRetParams: selectEventRetParams});
+                                                $scope.onSelect({ selectedItem: selectedItem });
                                             }
                                         });
                                     });
@@ -244,6 +244,10 @@
                             }, 0, true);
                         }
                     }
+
+                    googleChartApiPromise.then(function () {
+                        $scope.onApiReady();
+                    })
 
                     function drawAsync() {
                         googleChartApiPromise.then(function () {
