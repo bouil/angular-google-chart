@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         '* @author Nicolas Bouillon <nicolas@bouil.org>\n'+
         '* @author GitHub contributors\n'+
         '* @license MIT\n'+
-        '* @year 2013\n'+
+        '* @year 2013-2015\n'+
         '*/\n',
         sourceMap: true
       },
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       options:{
         jshintrc: true
       },
-      all: ['Gruntfile.js', 'sample.js', 'partials/**/*.js', 'src/**/*.js']
+      all: ['Gruntfile.js', 'example/sample.js', 'example/partials/**/*.js', 'src/**/*.js']
     },
     uglify: {
       options:{
