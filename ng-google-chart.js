@@ -284,8 +284,9 @@
                         formatManager = new FormatManager();
                     }
                     
-                    if (formatManager.applyFormats(self.chartWrapper.getDataTable(),
-                        self.chart.formatters, self.chart.customFormatters).requiresHtml){
+                    var applied = formatManager.applyFormats(self.chartWrapper.getDataTable(),
+                        self.chart.formatters, self.chart.customFormatters);
+                    if (applied && applied.requiresHtml){
                         self.chartWrapper.setOption('allowHtml', true);
                     }
                     
