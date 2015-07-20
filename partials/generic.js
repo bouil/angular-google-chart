@@ -1,5 +1,5 @@
 /* global angular */
-angular.module("google-chart-sample").controller("GenericChartCtrl", function ($scope, $routeParams) {
+angular.module("google-chart-sample", ["googlechart"]).controller("GenericChartCtrl", function ($scope, $routeParams) {
     $scope.chartObject = {};
 
     $scope.onions = [
