@@ -27,6 +27,7 @@
                 <option value="LineChart">LineChart</option>
                 <option value="Table">Table</option>
                 <option value="BarChart">BarChart</option>
+                <option value="google.charts.Bar">Material Bar</option>
             </select>
 
         </div>
@@ -65,7 +66,7 @@
 </div>
 
 <div class="col-xs-7">
-    <div google-chart chart="chart" style="{{cssStyle}}" on-ready="chartReady()"></div>
+    <div google-chart chart="chart" style="{{cssStyle}}" agc-on-ready="chartReady(chartWrapper)" agc-material></div>
     <!-- explicit close of tag seems to be necessary -->
 </div>
 

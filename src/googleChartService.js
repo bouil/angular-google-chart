@@ -18,6 +18,7 @@
             self.getReadyPromise = getReadyPromise;
             self.isApiReady = isApiReady;
             self.registerChartListener = registerChartListener;
+            self.registerOptionTransformer = registerOptionTransformer;
             self.registerServiceListener = registerServiceListener;
             self.registerWrapperListener = registerWrapperListener;
             self.setData = setData;
@@ -36,6 +37,7 @@
                 _data,
                 _view,
                 _options,
+                optionTransformers = [],
                 _formatters,
                 _innerVisualization,
                 _formatManager,
@@ -70,7 +72,30 @@
                 _serviceDeferred.resolve();
                 return g;
             }
+            
+            function _applyOptionTransformations(options){
+                var i, workingOptions = angular.copy(options);
+                for(i=0;i<optionTransformers.length;i++){
+                    workingOptions = $injector.invoke(optionTransformers[0].$transform, this, {
+                        options: workingOptions,
+                        type: _chartType,
+                        data: _data,
+                        view: _view,
+                        formatters: _formatters
+                    });
+                }
+                return workingOptions;
+            }
 
+            function _comparePriority(a,b){
+                if(a.priority<b.priority){
+                    return -1;
+                }
+                if(a.priority>b.priority){
+                    return 1;
+                }
+                return 0;
+            }
 
             function _continueSetup() {
                 if (!angular.isDefined(_chartWrapper)) {
@@ -78,7 +103,7 @@
                         chartType: _chartType,
                         dataTable: _data,
                         view: _view,
-                        options: _options,
+                        options: _applyOptionTransformations(_options),
                         containerId: _element[0]
                     });
                     _registerListenersWithGoogle(_chartWrapper, wrapperListeners);
@@ -87,7 +112,7 @@
                     _chartWrapper.setChartType(_chartType);
                     _chartWrapper.setDataTable(_data);
                     _chartWrapper.setView(_view);
-                    _chartWrapper.setOptions(_options);
+                    _chartWrapper.setOptions(_applyOptionTransformations(_options));
                 }
 
                 if (!_formatManager) {
@@ -270,6 +295,11 @@
 
             function registerChartListener(eventName, listenerFn, listenerObject) {
                 return _registerListener(chartListeners, eventName, listenerFn, listenerObject);
+            }
+            
+            function registerOptionTransformer(transformer){
+                optionTransformers.push(transformer);
+                optionTransformers.sort(_comparePriority);
             }
 
             function registerServiceListener(eventName, listenerFn, listenerObject) {

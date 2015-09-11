@@ -226,8 +226,9 @@
             $scope.chart.formatters[format.name] = format.format;
         };
 
-        $scope.chartReady = function() {
+        $scope.chartReady = function(chartWrapper) {
             fixGoogleChartsBarsBootstrap();
+            console.info('Options on chartWrapper: ', chartWrapper.getOptions());
         };
 
         function fixGoogleChartsBarsBootstrap() {
