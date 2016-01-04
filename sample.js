@@ -25,7 +25,7 @@ angular.module("google-chart-sample", ["ngRoute", "googlechart"]).config(['$rout
     }]).value('googleChartApiConfig', {
             version: '1',
             optionalSettings: {
-                packages: ['corechart', 'gauge'],
+                packages: ['line', 'gauge'],
                 language: 'fr'
             }
     });
