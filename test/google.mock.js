@@ -305,11 +305,11 @@
         google.visualization.IntensityMap.prototype.setSelection = function(selection) {};
 
         /** @constructor */
-        google.visualization.LineChart = function(container) {};
-        google.visualization.LineChart.prototype.draw = function(data, opt_options, opt_state) {};
-        google.visualization.LineChart.prototype.clearChart = function() {};
-        google.visualization.LineChart.prototype.getSelection = function() {};
-        google.visualization.LineChart.prototype.setSelection = function(selection) {};
+        google.visualization.Line = function(container) {};
+        google.visualization.Line.prototype.draw = function(data, opt_options, opt_state) {};
+        google.visualization.Line.prototype.clearChart = function() {};
+        google.visualization.Line.prototype.getSelection = function() {};
+        google.visualization.Line.prototype.setSelection = function(selection) {};
 
         /** @constructor */
         google.visualization.MotionChart = function(container) {};
