@@ -1,4 +1,4 @@
-/*! angular-google-chart 2015-11-29 */
+/*! angular-google-chart 2016-03-26 */
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 0.1.0
@@ -373,6 +373,35 @@
                     });
                 }
                 googleChartController.registerWrapperListener('ready', callback, this);
+            }
+        };
+    }
+})();
+/* global angular */
+(function () {
+    angular.module('googlechart')
+        .directive('agcOnRegionSelect', onRegionSelectDirective);
+
+    function onRegionSelectDirective() {
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function (scope, element, attrs, googleChartController) {
+                callback.$inject = ['args', 'chartWrapper', 'chart'];
+                function callback(args, chartWrapper, chart) {
+                    var returnParams = {
+                        chartWrapper: chartWrapper,
+                        chart: chart,
+                        args: args,
+                        column: args[0].column,
+                        row: args[0].row
+                    };
+                    scope.$apply(function () {
+                        scope.$eval(attrs.agcOnRegionSelect, returnParams);
+                    });
+                }
+                googleChartController.registerChartListener('regionClick', callback, this);
             }
         };
     }
@@ -817,3 +846,4 @@
         };
     }
 })();
+//# sourceMappingURL=ng-google-chart.js.map
