@@ -4,7 +4,7 @@
     "homepage": "http://angular-google-chart.github.io/angular-google-chart/",
     "repository": {
         "type": "git",
-        "url": "https://github.com/boltex/angular-google-chart.git"
+        "url": "https://github.com/angular-google-chart/angular-google-chart.git"
     },
     "description": "Google Chart Tools AngularJS Directive Module",
     "authors": [
