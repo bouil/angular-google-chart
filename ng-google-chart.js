@@ -458,7 +458,7 @@
             };
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
-            console.log(apiConfig.optionalSettings);
+
             window.google.charts.load('current', apiConfig.optionalSettings );
             window.google.charts.setOnLoadCallback( settings.callback );
 
