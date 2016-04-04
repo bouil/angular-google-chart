@@ -1,4 +1,4 @@
-/*! angular-google-chart 2015-11-29 */
+/*! angular-google-chart 2016-04-04 */
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 0.1.0
@@ -458,8 +458,10 @@
             };
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
+            console.log(apiConfig.optionalSettings);
+            window.google.charts.load('current', apiConfig.optionalSettings );
+            window.google.charts.setOnLoadCallback( settings.callback );
 
-            window.google.load('visualization', apiConfig.version, settings);
         };
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
@@ -802,7 +804,7 @@
         
     function googleJsapiUrlProvider() {
         var protocol = 'https:';
-        var url = '//www.google.com/jsapi';
+        var url = '//www.gstatic.com/charts/loader.js';
         
         this.setProtocol = function (newProtocol) {
             protocol = newProtocol;

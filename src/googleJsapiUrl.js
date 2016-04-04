@@ -5,7 +5,7 @@
         
     function googleJsapiUrlProvider() {
         var protocol = 'https:';
-        var url = '//www.google.com/jsapi';
+        var url = '//www.gstatic.com/charts/loader.js';
         
         this.setProtocol = function (newProtocol) {
             protocol = newProtocol;
