@@ -1,12 +1,12 @@
 {
   "name": "angular-google-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./ng-google-chart.js",
   "description": "Google Chart Tools AngularJS Directive Module",
   "homepage": "http://angular-google-chart.github.io/angular-google-chart/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/angular-google-chart/angular-google-chart.git"
+    "url": "https://github.com/boltex/angular-google-chart.git"
   },
   "contributors": [
     {
