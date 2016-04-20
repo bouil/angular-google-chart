@@ -2,9 +2,9 @@
 (function(){
     angular.module('googlechart')
         .factory('googleChartApiPromise', googleChartApiPromiseFactory);
-        
+
     googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
-        
+
     function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
         apiConfig.optionalSettings = apiConfig.optionalSettings || {};
         var apiReady = $q.defer();
@@ -25,8 +25,13 @@
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
 
-            window.google.load('visualization', apiConfig.version, settings);
+            if (apiConfig.useGstaticLoader) {
+                window.google.charts.load(apiConfig.gstaticLoaderVersion, settings);
+            } else {
+                window.google.load('visualization', apiConfig.version, settings);
+            }
         };
+
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
 

@@ -5,6 +5,8 @@
             version: '1',
             optionalSettings: {
                 packages: ['corechart']
-            }
+            },
+            useGstaticLoader: false,
+            gstaticLoaderVersion: 'current'
         });
 })();
