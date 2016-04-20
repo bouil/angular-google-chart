@@ -25,8 +25,12 @@
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
 
+            var chartsLoadCalled = false;
             if (apiConfig.useGstaticLoader) {
-                window.google.charts.load(apiConfig.gstaticLoaderVersion, settings);
+                if (!chartsLoadCalled) {
+                    window.google.charts.load(apiConfig.gstaticLoaderVersion, settings);
+                    chartsLoadCalled = true;
+                }
             } else {
                 window.google.load('visualization', apiConfig.version, settings);
             }
