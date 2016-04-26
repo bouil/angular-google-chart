@@ -17,7 +17,7 @@
         };
 
         this.$get = ['googleChartApiConfig', function (config) {
-            var urlToUse = config.useGstaticLoader ? gstaticUrl : url;
+            var urlToUse = config.useNewLoader ? gstaticUrl : url;
             return (protocol ? protocol : '') + urlToUse;
         }];
     }

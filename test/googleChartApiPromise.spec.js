@@ -46,8 +46,7 @@ describe('googleChartApiPromise factory', function() {
         }));
 
         it('should load google api with charts if gstatic config is set', function(done) {
-            config.useGstaticLoader = true;
-            config.gstaticLoaderVersion = '44';
+            config.useNewLoader = true;
 
             injectChartApiPromise();
 
@@ -74,7 +73,7 @@ describe('googleChartApiPromise factory', function() {
         }
 
         afterEach(function() {
-            config.useGstaticLoader = false;
+            config.useNewLoader = false;
         });
     });
 });

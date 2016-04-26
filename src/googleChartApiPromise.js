@@ -3,9 +3,10 @@
     angular.module('googlechart')
         .factory('googleChartApiPromise', googleChartApiPromiseFactory);
 
-    googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
 
-    function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
+   googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl', 'newLoaderVersion'];
+
+    function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl, newLoaderVersion) {
         apiConfig.optionalSettings = apiConfig.optionalSettings || {};
         var apiReady = $q.defer();
         var onLoad = function () {
@@ -25,8 +26,9 @@
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
 
-            if (apiConfig.useGstaticLoader) {
-                window.google.charts.load(apiConfig.gstaticLoaderVersion, settings);
+            if (apiConfig.useNewLoader) {
+                var version = newLoaderVersion();
+                window.google.charts.load(version, settings);
             } else {
                 window.google.load('visualization', apiConfig.version, settings);
             }
@@ -52,4 +54,5 @@
 
         return apiReady.promise;
     }
+
 })();

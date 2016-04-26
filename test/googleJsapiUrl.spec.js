@@ -50,13 +50,13 @@ describe('googleJsapiUrl provider', function() {
             var config;
             inject(function(googleChartApiConfig) {
                 config = googleChartApiConfig;
-                config.useGstaticLoader = true;
+                config.useNewLoader = true;
             });
 
             injectGoogleJsapiUrl();
 
             expect(googleJsapiUrl).toBe('https://www.gstatic.com/charts/loader.js');
-            config.useGstaticLoader = false;  // cleanup
+            config.useNewLoader = false;  // cleanup
         });
     });
 });
