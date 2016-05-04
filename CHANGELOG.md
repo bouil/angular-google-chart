@@ -5,6 +5,10 @@ but is still in early stages of development.
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* agcOnRangeChange directive
+
 ## [0.1.0] - 2015-11-29
 
 ### Added
