@@ -75,6 +75,7 @@
         };
 
         chart1.options = {
+            "tooltip":{},
             "title": "Sales per month",
             "isStacked": "true",
             "fill": 20,

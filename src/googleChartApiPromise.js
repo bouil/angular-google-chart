@@ -25,7 +25,9 @@
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
 
-            window.google.load('visualization', apiConfig.version, settings);
+            window.google.charts.load('current', apiConfig.optionalSettings );
+            window.google.charts.setOnLoadCallback( settings.callback );
+
         };
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
