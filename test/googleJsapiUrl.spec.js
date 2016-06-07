@@ -1,36 +1,62 @@
 /* global angular */
 /* eslint-env jasmine */
 describe('googleJsapiUrl provider', function() {
-    var providerInstance;
+    var googleJsapiUrl;
 
-    //capture the provider by injecting it into a fake module
-    beforeEach(function() {
-        angular.module('fakeModule',[])
-            .config(function(googleJsapiUrlProvider) {
-                providerInstance = googleJsapiUrlProvider;
+    beforeEach(module('googlechart'));
+
+    describe('default configuration', function() {
+        it ('should return regular jsapi url if nothing changed', function(){
+            injectGoogleJsapiUrl();
+            expect(googleJsapiUrl).toBe('https://www.google.com/jsapi');
+        });
+    })
+
+    function injectGoogleJsapiUrl() {
+        inject(function(_googleJsapiUrl_) {
+            googleJsapiUrl = _googleJsapiUrl_;
+        });
+    }
+
+    describe('configuring provider', function() {
+        it ('should return http url if protocol changed', function(){
+            configureProvider(function(provider) {
+                provider.setProtocol('http:');
             });
 
-        module('googlechart', 'fakeModule');
+            injectGoogleJsapiUrl();
 
-        //run injector to get the provider instance
-        inject(function(){});
-    });
-    
-    it ('should return default value if nothing changed', function(){
-       var result = providerInstance.$get();
-       expect(result).toBe('https://www.google.com/jsapi');
-    });
-    
-    it ('should return http url if protocol changed', function(){
-       providerInstance.setProtocol('http:');
-       var result = providerInstance.$get();
-       expect(result).toMatch(/^http:/);
-       expect(result).not.toMatch(/^https:/);
-    });
-    
-    it ('should return url as set if it has been set', function(){
-       providerInstance.setUrl('//www.example.com/api');
-       var result = providerInstance.$get();
-       expect(result).toMatch(/\/\/www\.example\.com\/api$/);
+            expect(googleJsapiUrl).toMatch(/^http:/);
+            expect(googleJsapiUrl).not.toMatch(/^https:/);
+        });
+
+        function configureProvider(configFn) {
+            module(function(googleJsapiUrlProvider) {
+                configFn(googleJsapiUrlProvider);
+            });
+        }
+
+        it ('should return url as set if it has been set', function(){
+            configureProvider(function(provider) {
+                provider.setUrl('//www.example.com/api');
+            });
+
+            injectGoogleJsapiUrl();
+
+            expect(googleJsapiUrl).toMatch(/\/\/www\.example\.com\/api$/);
+        });
+
+        it('should return gstatic url if config option was set', function() {
+            var config;
+            inject(function(googleChartApiConfig) {
+                config = googleChartApiConfig;
+                config.useNewLoader = true;
+            });
+
+            injectGoogleJsapiUrl();
+
+            expect(googleJsapiUrl).toBe('https://www.gstatic.com/charts/loader.js');
+            config.useNewLoader = false;  // cleanup
+        });
     });
 });

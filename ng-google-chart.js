@@ -1,4 +1,4 @@
-/*! angular-google-chart 2015-11-29 */
+/*! angular-google-chart 2016-04-20 */
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 0.1.0
@@ -300,7 +300,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseout', agcOnMouseoutDirective);
-    
+
     function agcOnMouseoutDirective(){
         return {
             restrict: 'A',
@@ -325,6 +325,7 @@
         };
     }
 })();
+
 /* global angular */
 
 (function(){
@@ -429,16 +430,19 @@
             version: '1',
             optionalSettings: {
                 packages: ['corechart']
-            }
+            },
+            useGstaticLoader: false,
+            gstaticLoaderVersion: 'current'
         });
 })();
+
 /* global angular */
 (function(){
     angular.module('googlechart')
         .factory('googleChartApiPromise', googleChartApiPromiseFactory);
-        
+
     googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
-        
+
     function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
         apiConfig.optionalSettings = apiConfig.optionalSettings || {};
         var apiReady = $q.defer();
@@ -459,8 +463,13 @@
 
             settings = angular.extend({}, apiConfig.optionalSettings, settings);
 
-            window.google.load('visualization', apiConfig.version, settings);
+            if (apiConfig.useGstaticLoader) {
+                window.google.charts.load(apiConfig.gstaticLoaderVersion, settings);
+            } else {
+                window.google.load('visualization', apiConfig.version, settings);
+            }
         };
+
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
 
@@ -482,6 +491,7 @@
         return apiReady.promise;
     }
 })();
+
 /* global angular */
 (function() {
     angular.module('googlechart')
@@ -799,11 +809,12 @@
 (function(){
     angular.module('googlechart')
         .provider('googleJsapiUrl', googleJsapiUrlProvider);
-        
+
     function googleJsapiUrlProvider() {
         var protocol = 'https:';
         var url = '//www.google.com/jsapi';
-        
+        var gstaticUrl = '//www.gstatic.com/charts/loader.js';
+
         this.setProtocol = function (newProtocol) {
             protocol = newProtocol;
         };
@@ -812,8 +823,9 @@
             url = newUrl;
         };
 
-        this.$get = function () {
-            return (protocol ? protocol : '') + url;
-        };
+        this.$get = ['googleChartApiConfig', function (config) {
+            var urlToUse = config.useGstaticLoader ? gstaticUrl : url;
+            return (protocol ? protocol : '') + urlToUse;
+        }];
     }
 })();

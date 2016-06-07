@@ -3,7 +3,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseout', agcOnMouseoutDirective);
-    
+
     function agcOnMouseoutDirective(){
         return {
             restrict: 'A',
