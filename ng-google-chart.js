@@ -2,7 +2,7 @@
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 0.1.0
-* @author GitHub Contributors <https://github.com/angular-google-chart/angular-google-chart/graphs/contributors> 
+* @author GitHub Contributors <https://github.com/angular-google-chart/angular-google-chart/graphs/contributors>
 * @license MIT
 * @year 2013
 */
@@ -10,9 +10,9 @@
 (function(){
     angular.module('googlechart', [])
         .run(registerResizeEvent);
-        
+
     registerResizeEvent.$inject = ['$rootScope', '$window'];
-    
+
     function registerResizeEvent($rootScope, $window){
         angular.element($window).on('resize', function () {
                 $rootScope.$emit('resizeMsg');
@@ -23,7 +23,7 @@
 (function(){
     angular.module('googlechart')
         .factory('FormatManager', formatManagerFactory);
-        
+
         function formatManagerFactory(){
             // Handles the processing of Google Charts API Formats
             function FormatManager($google){
@@ -31,7 +31,7 @@
                 var oldFormatTemplates = {};
                 self.iFormats = {}; // Holds instances of formats (ie. self.iFormats.date[0] = new $google.visualization.DateFormat(params))
                 self.applyFormats = applyFormats;
-                
+
                 // apply formats of type to datatable
                 function apply(tFormats, dataTable){
                     var i, formatType;
@@ -45,7 +45,7 @@
                         }
                     }
                 }
-                
+
                 function applyFormat(formatType, FormatClass, tFormats){
                     var i;
                     if (angular.isArray(tFormats[formatType])) {
@@ -53,7 +53,7 @@
                         if (!angular.equals(tFormats[formatType], oldFormatTemplates[formatType])) {
                             oldFormatTemplates[formatType] = tFormats[formatType];
                             self.iFormats[formatType] = [];
-            
+
                             if (formatType === 'color') {
                                 instantiateColorFormatters(tFormats);
                             } else {
@@ -66,7 +66,7 @@
                         }
                     }
                 }
-                
+
                 function applyFormats(dataTable, tFormats, customFormatters) {
                     var formatType, FormatClass, requiresHtml = false;
                     if (!angular.isDefined(tFormats) || !angular.isDefined(dataTable)){
@@ -81,7 +81,7 @@
                                 continue;
                             }
                             applyFormat(formatType, FormatClass, tFormats);
-                            
+
                             //Many formatters require HTML tags to display special formatting
                             if (formatType === 'arrow' || formatType === 'bar' || formatType === 'color') {
                                 requiresHtml = true;
@@ -91,7 +91,7 @@
                     apply(tFormats, dataTable);
                     return { requiresHtml: requiresHtml };
                 }
-                
+
                 function instantiateColorFormatters(tFormats){
                     var t, colorFormat, i, data, formatType = 'color';
                     for (t = 0; t < tFormats[formatType].length; t++) {
@@ -110,10 +110,13 @@
                         self.iFormats[formatType].push(colorFormat);
                     }
                 }
-                
+
                 function getFormatClass(formatType, customFormatters){
                     var className = formatType.charAt(0).toUpperCase() + formatType.slice(1).toLowerCase() + "Format";
                     if ($google.visualization.hasOwnProperty(className)){
+                        if(typeof google.charts[className] !== 'undefined') {
+                            return google.charts[className];
+                        }
                         return google.visualization[className];
                     } else if (angular.isDefined(customFormatters) && customFormatters.hasOwnProperty(formatType)) {
                         return customFormatters[formatType];
@@ -121,7 +124,7 @@
                     return;
                 }
             }
-            
+
             return FormatManager;
         }
 })();
@@ -171,11 +174,11 @@
         function init() {
             // Instantiate service
             googleChartService = new GoogleChartService();
-            
+
             self.registerChartListener = googleChartService.registerChartListener;
             self.registerWrapperListener = googleChartService.registerWrapperListener;
             self.registerServiceListener = googleChartService.registerServiceListener;
-            
+
             /* Watches, to refresh the chart when its data, formatters, options, view,
             or type change. All other values intentionally disregarded to avoid double
             calls to the draw function. Please avoid making changes to these objects
@@ -225,7 +228,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcBeforeDraw', onReadyDirective);
-        
+
     function onReadyDirective(){
         return {
             restrict: 'A',
@@ -300,7 +303,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseout', agcOnMouseoutDirective);
-    
+
     function agcOnMouseoutDirective(){
         return {
             restrict: 'A',
@@ -330,7 +333,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseover', agcOnMouseoverDirective);
-    
+
     function agcOnMouseoverDirective(){
         return {
             restrict: 'A',
@@ -359,7 +362,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnReady', onReadyDirective);
-        
+
     function onReadyDirective(){
         return {
             restrict: 'A',
@@ -381,7 +384,7 @@
 (function(){
     angular.module('googlechart')
         .directive('agcOnSelect', onSelectDirective);
-        
+
     function onSelectDirective(){
         return {
             restrict: 'A',
@@ -409,9 +412,9 @@
 (function(){
     angular.module('googlechart')
         .directive('googleChart', googleChartDirective);
-        
+
     googleChartDirective.$inject = [];
-        
+
     function googleChartDirective() {
 
         return {
@@ -436,9 +439,9 @@
 (function(){
     angular.module('googlechart')
         .factory('googleChartApiPromise', googleChartApiPromiseFactory);
-        
+
     googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
-        
+
     function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
         apiConfig.optionalSettings = apiConfig.optionalSettings || {};
         var apiReady = $q.defer();
@@ -695,7 +698,7 @@
 
             function getChartWrapper() {
                 // Most get functions on this interface return copies,
-                // this one should return reference so as to expose the 
+                // this one should return reference so as to expose the
                 //chart api to users
                 return _chartWrapper;
             }
@@ -799,11 +802,11 @@
 (function(){
     angular.module('googlechart')
         .provider('googleJsapiUrl', googleJsapiUrlProvider);
-        
+
     function googleJsapiUrlProvider() {
         var protocol = 'https:';
         var url = '//www.google.com/jsapi';
-        
+
         this.setProtocol = function (newProtocol) {
             protocol = newProtocol;
         };
