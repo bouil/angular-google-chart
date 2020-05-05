@@ -23,9 +23,9 @@ describe('JSAPI loader strategy factory', function(){
         });
     });
 
-    it('should add call the tag helper with: "https://www.google.com/jsapi"', function(){
-        agcScriptTagHelperBackend.expect('https://www.google.com/jsapi');
-        agcScriptTagHelperBackend.when('https://www.google.com/jsapi').succeed();
+    it('should add call the tag helper with: "https://www.google.com/jsapi?v=3.38"', function(){
+        agcScriptTagHelperBackend.expect('https://www.google.com/jsapi?v=3.38');
+        agcScriptTagHelperBackend.when('https://www.google.com/jsapi?v=3.38').succeed();
         
         var loaderPromise = $injector.get("agcJsapiLoader");
 
@@ -98,7 +98,7 @@ describe('JSAPI loader strategy factory', function(){
 
     it ('should pass the failure along if the script helper returns a rejection', function(done){
         agcScriptTagHelperBackend
-            .when("https://www.google.com/jsapi")
+            .when("https://www.google.com/jsapi?v=3.38")
             .fail();
 
         var loaderPromise = $injector.get("agcJsapiLoader");

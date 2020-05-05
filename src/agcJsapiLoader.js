@@ -24,7 +24,7 @@
 
         settings = angular.extend({}, googleChartApiConfig.optionalSettings, settings);
 
-        agcScriptTagHelper("https://www.google.com/jsapi")
+        agcScriptTagHelper("https://www.google.com/jsapi?v=3.38")
             .then(function(){
                 window.google.load('visualization', googleChartApiConfig.version || '1', settings);
             })
