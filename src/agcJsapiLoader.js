@@ -3,8 +3,8 @@
     angular.module("googlechart")
         .factory("agcJsapiLoader", agcJsapiLoaderFactory);
 
-    agcJsapiLoaderFactory.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "googleChartApiConfig"];
-    function agcJsapiLoaderFactory($rootScope, $q, agcScriptTagHelper, googleChartApiConfig){
+    agcJsapiLoaderFactory.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "googleChartApiConfig", "$timeout"];
+    function agcJsapiLoaderFactory($rootScope, $q, agcScriptTagHelper, googleChartApiConfig, $timeout){
         var apiReady = $q.defer();
         // Massage configuration as needed.
         googleChartApiConfig.optionalSettings = googleChartApiConfig.optionalSettings || {};
@@ -16,9 +16,9 @@
                 if (angular.isFunction(userDefinedCallback))
                     userDefinedCallback.call(this);
 
-                $rootScope.$apply(function(){
+                $timeout(function(){
                     apiReady.resolve(google);
-                });
+                }, 0);
             }
         };
 

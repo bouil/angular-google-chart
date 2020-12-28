@@ -75,7 +75,7 @@
             return versionCheck && packageCheck;
         }
 
-        this.$get = function($rootScope, $q, agcScriptTagHelper){
+        this.$get = function($rootScope, $q, agcScriptTagHelper, $timeout){
 
             function scriptLoadCallback(){
                 if (!google ||
@@ -89,9 +89,9 @@
                 google.charts.load(version, options);
 
                 google.charts.setOnLoadCallback(function(){
-                    $rootScope.$apply(function(){
+                    $timeout(function(){
                         deferred.resolve(google);
-                    });
+                    },0 );
                 });
 
                 return deferred.promise;
@@ -104,6 +104,6 @@
 
             return libraryPromise;
         };
-        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper"];
+        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "$timeout"];
     }
 })();
