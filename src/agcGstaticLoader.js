@@ -75,7 +75,7 @@
             return versionCheck && packageCheck;
         }
 
-        this.$get = function($rootScope, $q, agcScriptTagHelper){
+        this.$get = function($rootScope, $q, agcScriptTagHelper, $timeout){
 
             function scriptLoadCallback(){
                 if (!google ||
@@ -104,6 +104,6 @@
 
             return libraryPromise;
         };
-        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper"];
+        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "$timeout"];
     }
 })();
