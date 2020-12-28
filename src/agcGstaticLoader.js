@@ -89,9 +89,9 @@
                 google.charts.load(version, options);
 
                 google.charts.setOnLoadCallback(function(){
-                    $rootScope.$apply(function(){
+                    $timeout(function(){
                         deferred.resolve(google);
-                    });
+                    },0 );
                 });
 
                 return deferred.promise;

@@ -1,4 +1,4 @@
-/*! angular-google-chart 2017-05-20 */
+/*! angular-google-chart 2020-12-28 */
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 1.0.0-beta.1
@@ -321,7 +321,7 @@
             return versionCheck && packageCheck;
         }
 
-        this.$get = function($rootScope, $q, agcScriptTagHelper){
+        this.$get = function($rootScope, $q, agcScriptTagHelper, $timeout){
 
             function scriptLoadCallback(){
                 if (!google ||
@@ -335,9 +335,9 @@
                 google.charts.load(version, options);
 
                 google.charts.setOnLoadCallback(function(){
-                    $rootScope.$apply(function(){
+                    $timeout(function(){
                         deferred.resolve(google);
-                    });
+                    },0 );
                 });
 
                 return deferred.promise;
@@ -350,7 +350,7 @@
 
             return libraryPromise;
         };
-        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper"];
+        this.$get.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "$timeout"];
     }
 })();
 
@@ -359,9 +359,8 @@
     angular.module("googlechart")
         .factory("agcJsapiLoader", agcJsapiLoaderFactory);
 
-    agcJsapiLoaderFactory.$inject = ["$log", "$rootScope", "$q", "agcScriptTagHelper", "googleChartApiConfig"];
-    function agcJsapiLoaderFactory($log, $rootScope, $q, agcScriptTagHelper, googleChartApiConfig){
-        $log.debug("[AGC] jsapi loader invoked.");
+    agcJsapiLoaderFactory.$inject = ["$rootScope", "$q", "agcScriptTagHelper", "googleChartApiConfig", "$timeout"];
+    function agcJsapiLoaderFactory($rootScope, $q, agcScriptTagHelper, googleChartApiConfig, $timeout){
         var apiReady = $q.defer();
         // Massage configuration as needed.
         googleChartApiConfig.optionalSettings = googleChartApiConfig.optionalSettings || {};
@@ -373,22 +372,19 @@
                 if (angular.isFunction(userDefinedCallback))
                     userDefinedCallback.call(this);
 
-                $rootScope.$apply(function(){
+                $timeout(function(){
                     apiReady.resolve(google);
-                });
+                }, 0);
             }
         };
 
         settings = angular.extend({}, googleChartApiConfig.optionalSettings, settings);
 
-        $log.debug("[AGC] Calling tag helper...");
         agcScriptTagHelper("https://www.google.com/jsapi")
             .then(function(){
-                $log.debug("[AGC] Tag helper returned success.");
                 window.google.load('visualization', googleChartApiConfig.version || '1', settings);
             })
             .catch(function(){
-                $log.error("[AGC] Tag helper returned error. Script may have failed to load.");
                 apiReady.reject();
             });
 
@@ -628,6 +624,7 @@
     angular.module('googlechart')
         .directive('agcOnReady', onReadyDirective);
         
+    onReadyDirective.$inject = ['$timeout'];
     function onReadyDirective(){
         return {
             restrict: 'A',
@@ -636,15 +633,16 @@
             link: function(scope, element, attrs, googleChartController){
                 callback.$inject=['chartWrapper'];
                 function callback(chartWrapper){
-                    scope.$apply(function (){
+                    $timeout(function (){
                         scope.$eval(attrs.agcOnReady, {chartWrapper: chartWrapper});
-                    });
+                    }, 0);
                 }
                 googleChartController.registerWrapperListener('ready', callback, this);
             }
         };
     }
 })();
+
 /* global angular */
 (function(){
     angular.module('googlechart')

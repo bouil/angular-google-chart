@@ -14,7 +14,7 @@
                 function callback(chartWrapper){
                     $timeout(function (){
                         scope.$eval(attrs.agcOnReady, {chartWrapper: chartWrapper});
-                    });
+                    }, 0);
                 }
                 googleChartController.registerWrapperListener('ready', callback, this);
             }

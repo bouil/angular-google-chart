@@ -18,7 +18,7 @@
 
                 $timeout(function(){
                     apiReady.resolve(google);
-                });
+                }, 0);
             }
         };
 
